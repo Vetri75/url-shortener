@@ -1,102 +1,89 @@
-# URL Shortener
+# 🚀 Scalable URL Shortener (System Design Project)
 
-A scalable URL shortener built using Spring Boot, Redis, and MySQL, designed for low latency and high concurrency.
-
----
-
-## Features
-
-* Short URL generation
-* Custom alias support
-* Expiry-based links
-* Redis caching for fast redirection (ms-level latency)
-* Click analytics tracking
-* Rate limiting (Redis-based)
+A high-performance URL shortener built with **Spring Boot, Redis, and MySQL**, designed to handle **high concurrency with low latency**.
 
 ---
 
-## Architecture
+## 🔥 Why this project stands out
 
-<img width="990" height="610" alt="final3" src="https://github.com/user-attachments/assets/dcf90489-5cc1-4b03-9e94-065c49fb9564" />
+Unlike basic URL shorteners, this system is designed with **real-world scalability concepts**:
+
+* ⚡ Redis caching (ms-level response time)
+* 🚦 Rate limiting (prevents abuse)
+* 📊 Async analytics processing
+* ⚖️ Load balancing architecture
+* 🔁 Cache-aside pattern implementation
+
+---
+
+## 🧠 Architecture
+
+<img width="990" height="610" alt="final3" src="https://github.com/user-attachments/assets/131128e9-9ade-4a4e-8a06-325b1288687d" />
 
 
-### Flow:
+---
 
-1. Client sends request
-2. Rate limiter (Redis) filters excessive traffic
-3. Load balancer distributes requests
-4. Application servers handle logic
+## ⚙️ System Flow
 
-**Redirection:**
+### 🔹 URL Redirection
 
-* Cache Hit → return URL instantly
-* Cache Miss → fetch from DB → store in cache → return
+1. Request hits **Rate Limiter (Redis)**
+2. Passed to **Load Balancer**
+3. Routed to **Application Server**
+4. **Cache Check (Redis)**:
 
-**URL Generation:**
+   * ✅ Cache Hit → Instant redirect
+   * ❌ Cache Miss → Fetch from DB → Store in cache → Redirect
 
-* Generate short URL
-* Store mapping in DB
+---
 
-**Analytics:**
+### 🔹 URL Generation
+
+* Generate unique short code
+* Store mapping in MySQL database
+
+---
+
+### 🔹 Analytics (Async)
 
 * Click events processed asynchronously
+* Does not block user request
 
 ---
 
-## Tech Stack
+## 🚀 Performance (JMeter Tested)
 
-* Java (Spring Boot)
-* MySQL (Primary Database)
-* Redis (Cache + Rate Limiting)
-* Docker (Containerization)
-* JMeter (Load Testing)
+* ⚡ **1–3 ms** response time (cache hit)
+* 🔥 Handles **high concurrent users**
+* 📈 Throughput tested under multiple load conditions
 
 ---
 
-## Performance
+## 🧪 Load Testing
 
-* ~1–3 ms response time (cache hit)
-* Handles concurrent users efficiently
-* Tested using JMeter under different loads
+Tested using Apache JMeter under different loads.
 
----
+📸 Screenshots:
 
-## Load Testing
-
-Load testing performed using Apache JMeter.
-
-Add your screenshots here:
-
-```
-/screenshots/JMeter-test-1.png
-/screenshots/JMeter-test-2.png
-/screenshots/JMeter-test-3.png
-/screenshots/JMeter-test-4.png
-/screenshots/JMeter-test-5.png
-```
+* `/screenshots/test-50-users.png`
+* `/screenshots/test-100-users.png`
+* `/screenshots/test-200-users.png`
+* `/screenshots/test-1000-users.png`
+* `/screenshots/test-10000-users.png`
 
 ---
 
-## Project Structure
+## 🏗️ Tech Stack
 
-```
-src/
- ├── controller/
- ├── service/
- ├── repository/
- ├── entity/
- └── config/
-
-pom.xml
-docker-compose.yml
-README.md
-```
+* **Backend:** Spring Boot (Java)
+* **Database:** MySQL
+* **Cache:** Redis
+* **Testing:** JMeter
+* **Containerization:** Docker (WIP)
 
 ---
 
-## ▶️ How to Run
-
-### Run locally
+## ▶️ Run Locally
 
 ```bash
 mvn spring-boot:run
@@ -104,30 +91,22 @@ mvn spring-boot:run
 
 ---
 
-### Run with Docker (optional)
+## 📌 Key Concepts
 
-```bash
-docker compose up --build
-```
-
----
-
-## Key Concepts Demonstrated
-
-* Caching strategy (Cache Aside Pattern)
-* Rate limiting (Token Bucket / Counter using Redis)
-* Load distribution
-* Async processing (analytics)
-* Database + Cache coordination
+* Cache Aside Pattern
+* Rate Limiting (Token Bucket using Redis)
+* Horizontal Scaling Design
+* Async Processing
+* DB + Cache coordination
 
 ---
 
-## Future Improvements
+## 🚀 Future Improvements
 
-* Distributed cache (clustered Redis)
-* CDN integration
+* Redis clustering
+* Distributed rate limiting
+* Kubernetes deployment
 * Advanced analytics dashboard
-* Horizontal scaling with Kubernetes
 
 ---
 
