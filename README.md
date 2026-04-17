@@ -90,7 +90,13 @@ mvn spring-boot:run
 ```
 
 ---
+## ▶️ Run with Docker
 
+```bash
+docker compose up --build
+```
+
+---
 ## 📌 Key Concepts
 
 * Cache Aside Pattern
