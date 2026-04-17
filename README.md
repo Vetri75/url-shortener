@@ -1,24 +1,37 @@
-# 🚀 Scalable URL Shortener (System Design Project)
+# 🚀 Scalable URL Shortener (Low-Latency System)
 
-A high-performance URL shortener built with **Spring Boot, Redis, and MySQL**, designed to handle **high concurrency with low latency**.
+A scalable URL shortener designed to handle **high concurrency with sub-5ms redirects using Redis caching and optimized backend architecture**.
 
 ---
 
-## 🔥 Why this project stands out
+## 🔥 Why This Project
 
-Unlike basic URL shorteners, this system is designed with **real-world scalability concepts**:
+This project demonstrates how real-world backend systems handle:
 
-* ⚡ Redis caching (ms-level response time)
-* 🚦 Rate limiting (prevents abuse)
-* 📊 Async analytics processing
-* ⚖️ Load balancing architecture
-* 🔁 Cache-aside pattern implementation
+* High traffic using caching strategies
+* Abuse prevention with rate limiting
+* Low-latency responses
+* Scalable system design
+
+---
+
+## ✨ Features
+
+* ⚡ Fast redirects using **Redis Cache-Aside pattern**
+* 🛡️ Rate Limiting using **Redis (Token Bucket / Counter)**
+* ⏳ URL expiry with TTL support
+* 📊 Asynchronous Click Analytics (non-blocking)
+* 🔤 Base62 encoding for short URLs
+* ✅ Custom alias support
+* 🗄️ Optimized MySQL with indexing
+* 📦 Docker support (basic setup)
+* 🚀 Designed for horizontal scaling
 
 ---
 
 ## 🧠 Architecture
 
-<img width="990" height="610" alt="final3" src="https://github.com/user-attachments/assets/131128e9-9ade-4a4e-8a06-325b1288687d" />
+<img width="990" height="610" alt="architecture" src="https://github.com/user-attachments/assets/e22ddfaf-717a-4fd0-8a66-f71d86f34a04" />
 
 
 ---
@@ -39,75 +52,135 @@ Unlike basic URL shorteners, this system is designed with **real-world scalabili
 
 ### 🔹 URL Generation
 
-* Generate unique short code
-* Store mapping in MySQL database
+* Generate short code using Base62
+* Store mapping in MySQL
 
 ---
 
 ### 🔹 Analytics (Async)
 
 * Click events processed asynchronously
-* Does not block user request
+* Does not block user requests
 
 ---
 
-## 🚀 Performance (JMeter Tested)
+## ⚡ Performance Highlights
 
-* ⚡ **1–3 ms** response time (cache hit)
-* 🔥 Handles **high concurrent users**
-* 📈 Throughput tested under multiple load conditions
+* 🚀 **1–3 ms response time** (cache hit)
+* 🔥 Tested with **high concurrent users (JMeter)**
+* 📈 High throughput under load
+* ⚡ Non-blocking analytics processing
 
 ---
 
 ## 🧪 Load Testing
 
-Tested using Apache JMeter under different loads.
+Tested using Apache JMeter under multiple load conditions.
 
-📸 Screenshots:
+📸 Screenshots available in:
 
-* `/screenshots/test-50-users.png`
-* `/screenshots/test-100-users.png`
-* `/screenshots/test-200-users.png`
-* `/screenshots/test-1000-users.png`
-* `/screenshots/test-10000-users.png`
+```id="lg47jw"
+screenshots/test-50-users.png
+screenshots/test-100-users.png
+screenshots/test-200-users.png
+screenshots/test-1000-users.png
+screenshots/test-10000-users.png
+```
 
 ---
 
 ## 🏗️ Tech Stack
 
-* **Backend:** Spring Boot (Java)
-* **Database:** MySQL
+* **Backend:** Spring Boot (Java 17)
+* **Database:** MySQL 8
 * **Cache:** Redis
-* **Testing:** JMeter
-* **Containerization:** Docker (WIP)
+* **Rate Limiting:** Redis
+* **Build Tool:** Maven
+* **Containerization:** Docker (basic setup)
+* **Testing:** Apache JMeter
 
 ---
 
-## ▶️ Run Locally
+## 📋 API Endpoints
+
+| Method | Endpoint                         | Description              |
+| ------ | -------------------------------- | ------------------------ |
+| GET    | `/api/url/generate`              | Generate short URL       |
+| GET    | `/{shortCode}`                   | Redirect to original URL |
+| GET    | `/api/url/analytics/{shortCode}` | Get click analytics      |
+
+---
+
+## 🔧 Example Usage
+
+### Generate Short URL
+
+```bash
+curl "http://localhost:8080/api/url/shorten?longUrl=https://example.com"
+```
+
+---
+
+### Redirect
+
+```id="z11yqw"
+http://localhost:8080/abc123
+```
+
+---
+
+### Get Analytics
+
+```bash
+curl "http://localhost:8080/api/url/analytics/abc123"
+```
+
+---
+
+## ▶️ How to Run
+
+### Run Locally
 
 ```bash
 mvn spring-boot:run
 ```
 
 ---
-## ▶️ Run with Docker
+
+### Run with Docker
 
 ```bash
 docker compose up --build
 ```
 
 ---
-## 📌 Key Concepts
 
-* Cache Aside Pattern
-* Rate Limiting (Token Bucket using Redis)
-* Horizontal Scaling Design
-* Async Processing
-* DB + Cache coordination
+## 📁 Project Structure
+
+```id="wqtcs7"
+src/main/java/com/URLShortener/
+├── config/
+├── controller/
+├── entity/
+├── repository/
+├── service/
+└── scheduler/
+```
 
 ---
 
-## 🚀 Future Improvements
+## 🧠 Key Concepts Demonstrated
+
+* Cache-Aside Pattern
+* Rate Limiting using Redis
+* Asynchronous Processing
+* Horizontal Scaling Design
+* DB + Cache coordination
+* TTL-based Expiry Handling
+
+---
+
+## 🔮 Future Improvements
 
 * Redis clustering
 * Distributed rate limiting
@@ -118,4 +191,4 @@ docker compose up --build
 
 ## 👨‍💻 Author
 
-Vetri K
+**Vetri K**
