@@ -7,7 +7,7 @@ A production-oriented URL shortener built using **Spring Boot, Redis, and MySQL*
 ## 🌐 Live Demo
 
 👉 **API Base URL:** https://vetri.site
-👉 Try: https://vetri.site/
+👉 Try: https://vetri.site/repo
 
 > Recruiters: Click and test directly. No setup required.
 
