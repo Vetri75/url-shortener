@@ -5,7 +5,9 @@ import com.URLShortener.URLS.Entity.UrlEntity;
 import com.URLShortener.URLS.Repository.UrlRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -189,23 +191,42 @@ public class UrlService {
 
 
 //  Sync click counts
-    @Scheduled(fixedRate = 10000) // Every 10 seconds
-    public void syncClickCounts(){
-        // Check specific pattern
-        Set<String> keys = clickCountRedisTemplate.keys("click_count:*");
+@Scheduled(fixedRate = 10000)
+public void syncClickCounts() {
 
-        for(String key : keys){
-            String shortCode = key.split(":")[1];
-            Long count = clickCountRedisTemplate.opsForValue().get(key);
+    ScanOptions options = ScanOptions.scanOptions()
+            .match("click_count:*")
+            .count(100)
+            .build();
 
-            UrlEntity url = urlRepository.findByShortCode(shortCode).orElse(null);
-            if(url != null && count != null){
-                url.setClickCount(url.getClickCount() +count);
-                urlRepository.save(url);
-            }
-            clickCountRedisTemplate.delete(key);
+    Cursor<byte[]> cursor = clickCountRedisTemplate
+            .getConnectionFactory()
+            .getConnection()
+            .scan(options);
 
+    while (cursor.hasNext()) {
+
+        String key = new String(cursor.next());
+
+        String shortCode = key.split(":")[1];
+
+        Long count = clickCountRedisTemplate.opsForValue().get(key);
+
+        UrlEntity url = urlRepository
+                .findByShortCode(shortCode)
+                .orElse(null);
+
+        if (url != null && count != null) {
+
+            url.setClickCount(
+                    url.getClickCount() + count
+            );
+
+            urlRepository.save(url);
         }
+
+        clickCountRedisTemplate.delete(key);
     }
+}
 
 }
