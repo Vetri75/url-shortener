@@ -6,8 +6,8 @@ A production-oriented URL shortener built using **Spring Boot, Redis, and MySQL*
 
 ## 🌐 Live Demo
 
-👉 **API Base URL:** https://your-live-url.com
-👉 Try: https://your-live-url.com/{shortCode}
+👉 **API Base URL:** https://vetri.site
+👉 Try: https://vetri.site/
 
 > Recruiters: Click and test directly. No setup required.
 
