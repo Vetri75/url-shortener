@@ -88,7 +88,7 @@ Response:
 
 ```json
 {
-  "shortUrl": "https://your-live-url.com/abc123"
+  "shortUrl": "https://vetri.site/abc123"
 }
 ```
 
