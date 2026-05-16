@@ -64,11 +64,11 @@ A production-oriented URL shortener built using **Spring Boot, Redis, and MySQL*
 
 ## 🏗️ Architecture
 
-Client → Load Balancer → Spring Boot → Redis → MySQL
+<img width="1055" height="740" alt="Architecture" src="https://github.com/user-attachments/assets/d5f33a7e-5426-4e98-a301-ed1e1b5233f1" />
 
-* Redis = fast access layer
-* MySQL = source of truth
-* API = stateless & scalable
+
+
+
 
 ---
 
