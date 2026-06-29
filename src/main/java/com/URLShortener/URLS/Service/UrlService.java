@@ -150,8 +150,20 @@ public class UrlService {
 
 //  Analytics
     public ResponseEntity<?> getAnalytics(String shortCode){
-        UrlEntity url = urlRepository.findByShortCode(shortCode).orElseThrow(() -> new RuntimeException(("Url not found")));
-        return ResponseEntity.ok(url.getClickCount());
+       UrlEntity url = urlRepository.findByShortCode(shortCode)
+        .orElseThrow(() -> new RuntimeException("Shortcode not found"));
+
+        // Get DB count
+        long dbCount = url.getClickCount();
+    
+        // Get pending Redis count (not yet synced)
+        Long redisCount = clickCountRedisTemplate.opsForValue().get("click_count:" + shortCode);
+        long pendingCount = redisCount != null ? redisCount : 0;
+    
+        // Total = DB + Redis pending
+        long totalClicks = dbCount + pendingCount;
+    
+        return ResponseEntity.ok(totalClicks);
     }
 
 //  Rate Limiting
